@@ -98,7 +98,10 @@ void INA233::wireReadBlock(uint8_t reg, uint8_t value[6])
 {
   int i;
   uint8_t block_size;
-  Wire.requestFrom(ina233_i2caddr,(uint8_t)7,reg,(uint8_t)1,(uint8_t)true);
+  Wire.beginTransmission(ina233_i2caddr);
+  Wire.write((uint8_t)(reg >> (1*8)));
+  Wire.endTransmission(false);
+  Wire.requestFrom(ina233_i2caddr,(uint8_t)7,(uint8_t)true);
   block_size=Wire.read();
   for (i=0;i<block_size;i++)
   {
@@ -113,7 +116,10 @@ void INA233::wireReadBlock(uint8_t reg, uint8_t value[6])
 /**************************************************************************/
 void INA233::wireReadWord(uint8_t reg, uint16_t *value)
 {
-  Wire.requestFrom(ina233_i2caddr,(uint8_t)2,reg,(uint8_t)1,(uint8_t)true);
+  Wire.beginTransmission(ina233_i2caddr);
+  Wire.write((uint8_t)(reg >> (1*8)));
+  Wire.endTransmission(false);
+  Wire.requestFrom(ina233_i2caddr,(uint8_t)2, (uint8_t)true);
   *value = Wire.read();
   *value=((Wire.read() << 8) | *value);
 }
@@ -124,7 +130,10 @@ void INA233::wireReadWord(uint8_t reg, uint16_t *value)
 /**************************************************************************/
 void INA233::wireReadByte(uint8_t reg, uint8_t *value)
 {
-  Wire.requestFrom(ina233_i2caddr,(uint8_t)1,reg,(uint8_t)1,(uint8_t)true);
+  Wire.beginTransmission(ina233_i2caddr);
+  Wire.write((uint8_t)(reg >> (1*8)));
+  Wire.endTransmission(false);
+  Wire.requestFrom(ina233_i2caddr,(uint8_t)1 ,(uint8_t)true);
   *value = Wire.read();
 }
 /**************************************************************************/
